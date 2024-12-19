@@ -1,0 +1,51 @@
+H=100//畫面高度
+L=15//單層高度
+R=200//畫面半徑
+N=30//深度
+n=20//一圈分幾個
+d=0.03//每個圓的間距
+R1=R
+R2=0
+
+
+function setup() {
+  createCanvas(2*R, 2*R);
+  background(220);
+  noStroke();
+  noLoop();
+}
+
+function draw() {
+  for(i=1;i<=N;i++){
+    R2=R1;
+    R1=R-R*i*L/(H+i*L);
+    for(j=i%2;j<n;j+=2){
+      fill(0)
+      arc(R,R,R2*2,R2*2,2*PI*j/n,2*PI*(j+1)/n)
+      fill(256)
+      arc(R,R,R2*2,R2*2,2*PI*(j+1)/n,2*PI*(j+2)/n)
+    }
+  }
+  fill(220)
+  circle(R,R,R2*2)
+  fill(100,30,205)
+  for(i=1;i<=N;i++){
+    R2=R;
+    R1=R-R*i*L/(H+i*L);
+    for(j=i%2;j<n;j+=2){
+      flower(R1,R2,2*PI*j/n)
+    }
+  }
+
+}
+function flower(R1,R2,theta){
+  x=R1*cos(theta)+R
+  y=R1*sin(theta)+R
+  s=(R2-R1)*0.3
+  w=s*0.3
+  dt=2*PI/n*0.2
+  quad(x,y,(R1+w)*cos(theta+dt)+R,(R1+w)*sin(theta+dt)+R,R1*cos(theta+2*dt)+R,R1*sin(theta+2*dt)+R,(R1-w)*cos(theta+dt)+R,(R1-w)*sin(theta+dt)+R)
+  quad(x,y,(R1+w)*cos(theta-dt)+R,(R1+w)*sin(theta-dt)+R,R1*cos(theta-2*dt)+R,R1*sin(theta-2*dt)+R,(R1-w)*cos(theta-dt)+R,(R1-w)*sin(theta-dt)+R)
+  quad(x,y,(R1+0.5*s)*cos(theta)+0.5*w*sin(theta)+R,(R1+0.5*s)*sin(theta)+0.5*w*cos(theta)+R,(R1+s)*cos(theta)+R,(R1+s)*sin(theta)+R,(R1+0.5*s)*cos(theta)-0.5*w*sin(theta)+R,(R1+0.5*s)*sin(theta)-0.5*w*cos(theta)+R)
+  quad(x,y,(R1-0.5*s)*cos(theta)+0.5*w*sin(theta)+R,(R1-0.5*s)*sin(theta)+0.5*w*cos(theta)+R,(R1-s)*cos(theta)+R,(R1-s)*sin(theta)+R,(R1-0.5*s)*cos(theta)-0.5*w*sin(theta)+R,(R1-0.5*s)*sin(theta)-0.5*w*cos(theta)+R)
+}
